@@ -7,6 +7,11 @@
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define QUICK_TAP_TERM 0
 
+&mt {
+    flavor = "tap-preferred";
+    tapping_term_ms = <200>;
+};
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
@@ -45,7 +50,7 @@
             bindings = <
 &kp F13  &kp Q           &kp W              &kp E              &kp R           &kp T           &kp Y         &kp U             &kp I              &kp O             &kp P     &kp K_CMENU
 &hyper   &kp A           &kp S              &kp D              &kp F           &kp G           &kp H         &kp J             &kp K              &kp L             &kp SEMI  &kp APOS
-&meh     &ht_hp LEFT_WIN Z  &ht_hp LEFT_ALT X     &ht_hp LEFT_SHIFT C   &ht_hp LCTRL V     &kp B           &ht_hp RCTRL N   &ht_hp LSHFT M       &ht_hp LEFT_ALT COMMA &ht_hp LEFT_WIN DOT  &kp FSLH  &kp BSLH
+&meh     &mt LEFT_WIN Z  &mt LEFT_ALT X     &mt LEFT_SHIFT C   &mt LCTRL V     &kp B           &mt RCTRL N   &mt LSHFT M       &mt LEFT_ALT COMMA &mt LEFT_WIN DOT  &kp FSLH  &kp BSLH
                          &kp ESC  &lt 1 RETURN  &kp SPACE    &kp BACKSPACE  &lt 2 DELETE  &kp TAB
             >;
         };
