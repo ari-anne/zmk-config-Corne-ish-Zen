@@ -2,15 +2,13 @@
 #define LWR 1
 #define RSE 2
 #define BOTH 3
-// Configure the global tapping term (default: 200ms)
-#define TAPPING_TERM 200
-// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
-#define QUICK_TAP_TERM 0
 
-&mt {
-    flavor = "tap-preferred";
-    tapping_term_ms = <200>;
-};
+//  0  1  2  3  4  5     6  7  8  9 10 11
+// 12 13 14 15 16 17    18 19 20 21 22 23
+// 24 25 26 27 28 29    30 31 32 33 34 35
+//          36 37 38    39 40 41
+#define LEFT_HAND <0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29>
+#define RIGHT_HAND <6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35>
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -18,14 +16,27 @@
 
 
 / {
-    combos {
-        compatible = "zmk,combos";
-
-        capsword {
-            bindings = <&caps_word>;
-            key-positions = <16 15>;
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick_tap_ms = <125>;
+            global-quick-tap;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
         };
     };
+
+    // combos {
+    //     compatible = "zmk,combos";
+
+    //     capsword {
+    //         bindings = <&caps_word>;
+    //         key-positions = <16 15>;
+    //     };
+    // };
 
     macros {
         hyper: hyper {
@@ -43,6 +54,15 @@
         };
     };
 
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        third_layer {
+            if-layers = <1 2>;
+            then-layer = <3>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -50,7 +70,7 @@
             bindings = <
 &kp F13  &kp Q           &kp W              &kp E              &kp R           &kp T           &kp Y         &kp U             &kp I              &kp O             &kp P     &kp K_CMENU
 &hyper   &kp A           &kp S              &kp D              &kp F           &kp G           &kp H         &kp J             &kp K              &kp L             &kp SEMI  &kp APOS
-&meh     &mt LEFT_WIN Z  &mt LEFT_ALT X     &mt LEFT_SHIFT C   &mt LCTRL V     &kp B           &mt RCTRL N   &mt LSHFT M       &mt LEFT_ALT COMMA &mt LEFT_WIN DOT  &kp FSLH  &kp BSLH
+&meh     &hm LEFT_WIN Z  &hm LEFT_ALT X     &hm LEFT_SHIFT C   &hm LCTRL V     &kp B           &hm RCTRL N   &hm LSHFT M       &hm LEFT_ALT COMMA &hm LEFT_WIN DOT  &kp FSLH  &kp BSLH
                          &kp ESC  &lt 1 RETURN  &kp SPACE    &kp BACKSPACE  &lt 2 DELETE  &kp TAB
             >;
         };
@@ -80,15 +100,6 @@
 &meh        &trans        &trans        &trans        &trans        &reset          &trans  &kp F13  &kp F14  &kp F15  &kp F16  &trans
                                         &trans        &trans        &trans          &trans  &trans   &trans
             >;
-        };
-    };
-
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-
-        third_layer {
-            if-layers = <1 2>;
-            then-layer = <3>;
         };
     };
 };
